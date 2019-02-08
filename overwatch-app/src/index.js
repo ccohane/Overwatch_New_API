@@ -13,7 +13,23 @@ class navbar extends React.Component {
 
 }
 
-class 
+class Players extends React.Component {
+    /**
+     * calls api to get info on players
+     */
+}
+
+class Teams extends React.Component {
+    /**
+     * calls api to get info on Teams
+     */
+}
+
+class Schedule extends React.Component {
+    /**
+     * calls api to get info on Schedule
+     */
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
