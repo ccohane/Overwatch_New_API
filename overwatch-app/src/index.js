@@ -38,6 +38,7 @@ class Navbar extends React.Component {
         return(
             <div>
                 <h1>Overwatch App</h1>
+                <Players />
             </div>
         )
     }
@@ -48,6 +49,53 @@ class Players extends React.Component {
     /**
      * calls api to get info on players
      */
+    getProfileForPlayer(){
+        let username;
+        let portrait;
+        let quickplay;
+        let playtime;
+        let competitiveRank;
+        let rank_img;
+        let levelFrame;
+        let star;
+
+
+
+        overwatch.getProfile(platform, region, tag, (err, json) => {
+            if (err){
+                 console.error(err);
+                }
+            else {
+                username=json.username;
+                portrait=json.level;
+                quickplayWins=json.games.quickplay.won;
+                quickplayPlayed=json.games.quickplay.played;
+                playtime=json.playtime.quickplay;
+                competitiveRank;
+                rank_img;
+                levelFrame;
+                star;
+                console.log(json);
+          }
+        }); 
+        
+    render(){
+        { username: 'Calvin',
+  level: 861,
+  portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x0250000000000EF7.png',
+  games:
+   { quickplay: { won: 647, played: undefined },
+     competitive: { won: 15, lost: 12, draw: 0, played: 27 } },
+  playtime: { quickplay: '129 hours', competitive: '5 hours' },
+  competitive:
+   { rank: 4416,
+     rank_img: 'https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-7.png' },
+  levelFrame: 'https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000974_Border.png',
+  star: 'https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000974_Rank.png' }
+    }
+
+    }
+    
 }
 
 class Teams extends React.Component {
