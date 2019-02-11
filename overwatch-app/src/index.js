@@ -2,7 +2,31 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class navbar extends React.Component {
+const overwatch = require('overwatch-api');
+ 
+const platform = 'pc';
+const region = 'us';
+const tag = 'Calvin-1337';
+ 
+overwatch.getProfile(platform, region, tag, (err, json) => {
+  if (err) console.error(err);
+  else console.log(json);
+}); 
+
+overwatch.getStats(platform, region, tag, (err, json) => {
+    if (err) console.error(err);
+    else console.log(json);
+}); 
+
+overwatch.owl.getLiveMatch((err,json)=> {
+    if (err) console.log(err);
+    else console.log(json);
+
+})
+
+
+class Navbar extends React.Component {
+
     /**
      * What goes in the navbar
      * Schedule
@@ -10,6 +34,13 @@ class navbar extends React.Component {
      * Teams
      * Analysis of old 
      */
+    render(){
+        return(
+            <div>
+                <h1>Overwatch App</h1>
+            </div>
+        )
+    }
 
 }
 
@@ -31,5 +62,5 @@ class Schedule extends React.Component {
      */
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Navbar />, document.getElementById('root'));
 
