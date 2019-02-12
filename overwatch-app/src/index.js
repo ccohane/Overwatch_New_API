@@ -25,7 +25,12 @@ class Navbar extends React.Component {
 }
 
 class Stats extends React.Component {
-
+    constructor(){
+        super(props);
+        this.state = {
+            
+        };
+    }
     /**
      * What goes in the navbar
      * Schedule
@@ -34,7 +39,7 @@ class Stats extends React.Component {
      * Analysis of old 
      */
     getPlayerStats(){
-        const json;
+        const json = null;
         const overwatch = require('overwatch-api');
  
         const platform = 'pc';
@@ -65,22 +70,27 @@ class ProfilePlayers extends React.Component {
     /**
      * calls api to get info on players
      */
+    constructor(props){
+        super(props);
+        this.state = {
+            username: null,
+            portrait: null,
+            quickplayWins: null,
+            quickplayPlayed: null,
+            playtime: null,
+            competitiveRank: null,
+            rank_img: null,
+            levelFrame: null,
+            star: null,
+        };
+    }
 
     
     getProfileForPlayer(){
-        const username;
-        const portrait;
-        const quickplayWins;
-        const quickplayPlayed;
-        const playtime;
-        const competitiveRank;
-        const rank_img;
-        const levelFrame;
-        const star;
-        const overwatch = require('overwatch-api');
-        const platform = 'pc';
-        const region = 'us';
-        const tag = 'Calvin-1337';
+        let overwatch = require('overwatch-api');
+        let platform = 'pc';
+        let region = 'us';
+        let tag = 'Calvin-1337';
 
 
         overwatch.getProfile(platform, region, tag, (err, json) => {
@@ -88,16 +98,18 @@ class ProfilePlayers extends React.Component {
                  console.error(err);
                 }
             else {
-                username=json.username;
-                portrait=json.level;
-                quickplayWins=json.games.quickplay.won;
-                quickplayPlayed=json.games.quickplay.played;
-                playtime=json.playtime.quickplay;
-                playtimeCompetitive=json.playtime.competitive;
-                competitiveRank= json.competitive.rank;
-                rank_img = json.competitive.rank_img;
-                levelFrame = json.levelFrame;
-                star= json.star;
+                this.setState({
+                    username: json.username,
+                    portrait:json.level,
+                    quickplayWins:json.games.quickplay.won,
+                    quickplayPlayed:json.games.quickplay.played,
+                    playtime:json.playtime.quickplay,
+                    playtimeCompetitive:json.playtime.competitive,
+                    competitiveRank: json.competitive.rank,
+                    rank_img : json.competitive.rank_img,
+                    levelFrame : json.levelFrame,
+                    star: json.star,
+                })
                 console.log(json);
           }
         }); 
@@ -105,13 +117,13 @@ class ProfilePlayers extends React.Component {
         
     render(){
         <div className="playerData">
-            <img src={portrait}></img>
-            <h3>{username}</h3>
+            <img src={this.state.portrait}></img>
+            <h3>{this.state.username}</h3>
             <ul>
-                <li> Quickplay Wins: {quickplayWins}</li>
-                <li> Quickplay Played: {quickplayPlayed}</li>
-                <li> Quickplay Play Time: {playtime}</li>
-                <li> Competitive Play Time {playtimeCompetitive}</li> 
+                <li> Quickplay Wins: {this.state.quickplayWins}</li>
+                <li> Quickplay Played: {this.state.quickplayPlayed}</li>
+                <li> Quickplay Play Time: {this.state.playtime}</li>
+                <li> Competitive Play Time {this.state.playtimeCompetitive}</li> 
             </ul>
         
         </div>
@@ -129,7 +141,13 @@ class Schedule extends React.Component {
     /**
      * calls api to get info on Schedule
      */
-    overwatch.owl.getSchedule(callback)
+    getSchedule(){
+        const overwatch = require('overwatch-api');
+        overwatch.owl.getSchedule((err,json)=> {
+            if (err) console.log(err);
+            else console.log(json);
+        })
+    }
 }
 
 class Standings extends React.Component {
