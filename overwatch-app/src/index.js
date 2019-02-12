@@ -2,28 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const overwatch = require('overwatch-api');
- 
-const platform = 'pc';
-const region = 'us';
-const tag = 'Calvin-1337';
- 
-overwatch.getProfile(platform, region, tag, (err, json) => {
-  if (err) console.error(err);
-  else console.log(json);
-}); 
-
-overwatch.getStats(platform, region, tag, (err, json) => {
-    if (err) console.error(err);
-    else console.log(json);
-}); 
-
-overwatch.owl.getLiveMatch((err,json)=> {
-    if (err) console.log(err);
-    else console.log(json);
-
-})
-
 
 class Navbar extends React.Component {
 
@@ -38,27 +16,71 @@ class Navbar extends React.Component {
         return(
             <div>
                 <h1>Overwatch App</h1>
-                <Players />
+                <ProfilePlayers />
+                <Stats />
             </div>
         )
     }
 
 }
 
-class Players extends React.Component {
+class Stats extends React.Component {
+
+    /**
+     * What goes in the navbar
+     * Schedule
+     * Players
+     * Teams
+     * Analysis of old 
+     */
+    getPlayerStats(){
+        const json;
+        const overwatch = require('overwatch-api');
+ 
+        const platform = 'pc';
+        const region = 'us';
+        const tag = 'Calvin-1337';
+
+
+        overwatch.getStats(platform, region, tag, (err, json) => {
+            if (err) {console.error(err);}
+
+            else{ console.log(json);
+                json=json;
+            }
+        }); 
+    }
+
+    render(){
+        return(
+            <div>
+                {json}
+            </div>
+        )
+    }
+
+}
+
+class ProfilePlayers extends React.Component {
     /**
      * calls api to get info on players
      */
-    getProfileForPlayer(){
-        let username;
-        let portrait;
-        let quickplay;
-        let playtime;
-        let competitiveRank;
-        let rank_img;
-        let levelFrame;
-        let star;
 
+    
+    getProfileForPlayer(){
+        const username;
+        const portrait;
+        const quickplayWins;
+        const quickplayPlayed;
+        const playtime;
+        const competitiveRank;
+        const rank_img;
+        const levelFrame;
+        const star;
+        const overwatch = require('overwatch-api');
+        const platform = 'pc';
+        const region = 'us';
+        const tag = 'Calvin-1337';
 
 
         overwatch.getProfile(platform, region, tag, (err, json) => {
@@ -71,29 +93,28 @@ class Players extends React.Component {
                 quickplayWins=json.games.quickplay.won;
                 quickplayPlayed=json.games.quickplay.played;
                 playtime=json.playtime.quickplay;
-                competitiveRank;
-                rank_img;
-                levelFrame;
-                star;
+                playtimeCompetitive=json.playtime.competitive;
+                competitiveRank= json.competitive.rank;
+                rank_img = json.competitive.rank_img;
+                levelFrame = json.levelFrame;
+                star= json.star;
                 console.log(json);
           }
         }); 
+    }
         
     render(){
-        { username: 'Calvin',
-  level: 861,
-  portrait: 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x0250000000000EF7.png',
-  games:
-   { quickplay: { won: 647, played: undefined },
-     competitive: { won: 15, lost: 12, draw: 0, played: 27 } },
-  playtime: { quickplay: '129 hours', competitive: '5 hours' },
-  competitive:
-   { rank: 4416,
-     rank_img: 'https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-7.png' },
-  levelFrame: 'https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000974_Border.png',
-  star: 'https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000974_Rank.png' }
-    }
-
+        <div className="playerData">
+            <img src={portrait}></img>
+            <h3>{username}</h3>
+            <ul>
+                <li> Quickplay Wins: {quickplayWins}</li>
+                <li> Quickplay Played: {quickplayPlayed}</li>
+                <li> Quickplay Play Time: {playtime}</li>
+                <li> Competitive Play Time {playtimeCompetitive}</li> 
+            </ul>
+        
+        </div>
     }
     
 }
@@ -108,7 +129,34 @@ class Schedule extends React.Component {
     /**
      * calls api to get info on Schedule
      */
+    overwatch.owl.getSchedule(callback)
 }
+
+class Standings extends React.Component {
+    /**
+     * calls api to get info on Schedule
+     */
+    getStandings(){
+        const overwatch = require('overwatch-api');
+        overwatch.owl.getStandings((err,json)=> {
+            if (err) console.log(err);
+            else console.log(json);
+        });
+    }
+}
+
+class LiveMatchData extends React.Component {
+    
+    liveMatchStats(){
+        const overwatch = require('overwatch-api');
+
+        overwatch.owl.getLiveMatch((err,json)=> {
+            if (err) console.log(err);
+            else console.log(json);
+        })
+    }
+}
+
 
 ReactDOM.render(<Navbar />, document.getElementById('root'));
 
